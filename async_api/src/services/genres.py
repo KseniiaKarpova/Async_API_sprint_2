@@ -3,32 +3,9 @@ from uuid import UUID
 
 from db.elastic import get_elastic
 from db.redis import get_redis
-from elasticsearch import AsyncElasticsearch, NotFoundError
 from redis.asyncio import Redis
 from services.cache import RedisCache
-
 from fastapi import Depends
-
-
-class GenreStorage:
-    def __init__(self, elastic: AsyncElasticsearch):
-        self.elastic = elastic
-
-    async def get_data_list(self):
-        try:
-            doc = await self.elastic.search(index="genres")
-            hits = doc['hits']['hits']
-            genres = [hit['_source'] for hit in hits]
-            return genres
-        except NotFoundError:
-            return None
-
-    async def get_data_by_id(self, id: UUID) -> dict:
-        try:
-            doc = await self.elastic.get(index="genres", id=id)
-        except NotFoundError:
-            return None
-        return doc["_source"]
 
 
 class GenreService:
