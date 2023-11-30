@@ -29,7 +29,7 @@ async def aiohttp_session():
 
 @pytest_asyncio.fixture(name='make_get_request')
 def make_get_request(aiohttp_session: ClientSession):
-    async def inner(endpoint, params):
+    async def inner(endpoint, params=None):
         url = f"{test_settings.service_url}{endpoint}"
         async with aiohttp_session.get(url, params=params) as response:
             json, status = await response.json(), response.status

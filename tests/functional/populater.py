@@ -1,3 +1,7 @@
+## this file to generate fake data
+## to fill the Elastic search with this data
+
+
 import random
 import uuid
 from pathlib import Path
@@ -10,9 +14,9 @@ from functional.testdata.config import (GENRES_DATA_PATH, MOVIES_DATA_PATH,
                                         roles_names)
 from functional.testdata.es_mapping import genres, movies, persons
 
-fake = Faker()
 import copy
 import json
+fake = Faker()
 
 BASE_DIR = Path(__file__).resolve().parent
 
