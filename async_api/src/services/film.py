@@ -1,18 +1,17 @@
 from functools import lru_cache
 from uuid import UUID
-
 from db.elastic import get_elastic
 from db.redis import get_redis
-
 from redis.asyncio import Redis
 from services.cache import RedisCache
-
 from fastapi import Depends
+from services.base_service import BaseService
+from storages.film_storage import FilmElasticStorage
+from elasticsearch import AsyncElasticsearch
 
 
-
-class FilmService:
-    def __init__(self, cache: RedisCache, storage: FilmStorage):
+class FilmService(BaseService):
+    def __init__(self, cache: RedisCache, storage: FilmElasticStorage):
         self.cache = cache
         self.storage = storage
 
@@ -43,5 +42,5 @@ def get_film_service(
     elastic: AsyncElasticsearch = Depends(get_elastic),
 ) -> FilmService:
     redis = RedisCache(redis)
-    elastic = FilmStorage(elastic)
+    elastic = FilmElasticStorage(elastic)
     return FilmService(redis, elastic)

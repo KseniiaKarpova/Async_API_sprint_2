@@ -1,18 +1,17 @@
 from functools import lru_cache
 from uuid import UUID
-
 from db.elastic import get_elastic
 from db.redis import get_redis
-from elasticsearch import AsyncElasticsearch, NotFoundError
 from redis.asyncio import Redis
 from services.cache import RedisCache
-
 from fastapi import Depends
+from services.base_service import BaseService
+from storages.person_storage import PersonElasticStorage
+from elasticsearch import AsyncElasticsearch
 
 
-
-class PersonService:
-    def __init__(self, cache: RedisCache, storage: PersonStorage):
+class PersonService(BaseService):
+    def __init__(self, cache: RedisCache, storage: PersonElasticStorage):
         self.cache = cache
         self.storage = storage
 
@@ -47,5 +46,5 @@ def get_person_service(
     elastic: AsyncElasticsearch = Depends(get_elastic),
 ) -> PersonService:
     redis = RedisCache(redis)
-    elastic = PersonStorage(elastic)
+    elastic = PersonElasticStorage(elastic)
     return PersonService(redis, elastic)

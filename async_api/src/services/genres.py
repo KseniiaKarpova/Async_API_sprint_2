@@ -1,15 +1,17 @@
 from functools import lru_cache
 from uuid import UUID
-
 from db.elastic import get_elastic
 from db.redis import get_redis
 from redis.asyncio import Redis
 from services.cache import RedisCache
 from fastapi import Depends
+from services.base_service import BaseService
+from storages.genre_storage import GenreElasticStorage
+from elasticsearch import AsyncElasticsearch
 
 
-class GenreService:
-    def __init__(self, cache: RedisCache, storage: GenreStorage):
+class GenreService(BaseService):
+    def __init__(self, cache: RedisCache, storage: GenreElasticStorage):
         self.cache = cache
         self.storage = storage
 
@@ -36,5 +38,5 @@ def get_genre_service(
     elastic: AsyncElasticsearch = Depends(get_elastic),
 ) -> GenreService:
     redis = RedisCache(redis)
-    elastic = GenreStorage(elastic)
+    elastic = GenreElasticStorage(elastic)
     return GenreService(redis, elastic)
