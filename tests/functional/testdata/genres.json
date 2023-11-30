@@ -1,0 +1,42 @@
+[
+    {
+        "id": "6c0dd3dd-b0dc-4540-8e5e-18a650a2ee54",
+        "name": "Action"
+    },
+    {
+        "id": "2248dc4b-9cfd-4483-8dd2-ebfb4e249b7d",
+        "name": "Comedy"
+    },
+    {
+        "id": "a5269675-2014-4e3a-9106-6030321547f9",
+        "name": "Drama"
+    },
+    {
+        "id": "071d835c-384f-4c89-9f5c-0327a7d9e776",
+        "name": "Horror"
+    },
+    {
+        "id": "29262547-b900-4d8a-a76b-56feab419ee3",
+        "name": "Science Fiction"
+    },
+    {
+        "id": "7a984968-7171-46cc-b211-66a4f2b2cb71",
+        "name": "Romance"
+    },
+    {
+        "id": "ac9e5da8-cde8-42d5-91fa-ac5a90a1763c",
+        "name": "Documentary"
+    },
+    {
+        "id": "9a20d833-4b93-4773-9025-d3e30f142a69",
+        "name": "Fantasy"
+    },
+    {
+        "id": "ba66243c-543a-4aa7-b7f9-c091f9b4f71e",
+        "name": "Thriller"
+    },
+    {
+        "id": "304350f8-6fa0-4208-aa3f-4224e35fe3fe",
+        "name": "Mystery"
+    }
+]
