@@ -162,3 +162,7 @@ media/
 *.trunk/
 *.vscode/
 __pycache__
+
+movies.json
+genres.json
+persons.json
