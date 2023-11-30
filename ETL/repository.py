@@ -86,7 +86,6 @@ class PersonRepository(BaseRepository):
         return subquery
 
 
-
 class FilmWorkRepository(BaseRepository):
     table = FilmWork
     
