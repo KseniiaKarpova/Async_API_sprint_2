@@ -96,7 +96,7 @@ class FakeDataCreater:
         """
         generate random genres list
         """
-        return [{'id': str(uuid.uuid4()), 'name': genre_name} for genre_name in self.film_genres]
+        return [{'id': str(uuid.uuid4()), 'name': genre_name, 'description': fake.text()} for genre_name in self.film_genres]
     
     def persons_generator(self):
         """
