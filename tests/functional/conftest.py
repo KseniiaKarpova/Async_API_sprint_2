@@ -2,7 +2,6 @@ import asyncio
 
 import pytest_asyncio
 from aiohttp import ClientSession
-from elasticsearch import AsyncElasticsearch
 from functional.settings import test_settings
 
 
@@ -11,13 +10,6 @@ def event_loop():
     loop = asyncio.new_event_loop()
     yield loop
     loop.close()
-
-
-@pytest_asyncio.fixture(name='es_client', scope='session')
-async def es_client():
-    es_client = AsyncElasticsearch(hosts=test_settings.es_url, verify_certs=False)
-    yield es_client
-    await es_client.close()
 
 
 @pytest_asyncio.fixture(name='aiohttp_session', scope='session')

@@ -18,7 +18,7 @@ ENDPOINT = '/api/v1/genres'
 )
 
 @pytest.mark.asyncio
-async def get_genres(make_get_request, expected_answer):
+async def test_get_genres(make_get_request, expected_answer):
     # 1. Запрашиваем данные из ES по API
     body, status = await make_get_request(endpoint=ENDPOINT)
     # 2. Проверяем ответ
@@ -45,7 +45,7 @@ async def get_genres(make_get_request, expected_answer):
 )
 
 @pytest.mark.asyncio
-async def get_genres_by_id(make_get_request, query,  expected_answer):
+async def test_get_genres_by_id(make_get_request, query,  expected_answer):
     # 1. Запрашиваем данные из ES по API
     body, status = await make_get_request(endpoint=ENDPOINT+f'/{query["uuid"]}')
     # 2. Проверяем ответ
