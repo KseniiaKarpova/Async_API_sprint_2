@@ -51,7 +51,7 @@ async def search_films(
 
 
 @router.get(
-    "/{film_id}",
+    "/{uuid}",
     response_model=FilmDetail,
     response_model_exclude={"actors_names", "writers_names"},
     response_description="Example of film",
@@ -59,9 +59,9 @@ async def search_films(
     description="Getting film by id",
 )
 async def get_film_details(
-    request: Request, film_id: UUID, film_service: FilmService = Depends(get_film_service)
+    request: Request, uuid: UUID, film_service: FilmService = Depends(get_film_service)
 ) -> FilmDetail:
-    film = await film_service.get_data_by_id(url=str(request.url), id=str(film_id))
+    film = await film_service.get_data_by_id(url=str(request.url), id=str(uuid))
     if not film:
         raise film_not_found
     return film
