@@ -6,7 +6,7 @@ from uuid import UUID
 
 class FilmBaseStorage(BaseStorage):
     @abstractmethod
-    async def get_data_list(self, sort, genre: UUID, page_number: int, page_size: int) -> list:
+    async def get_data_list(self, sort, genre_id: UUID, page_number: int, page_size: int) -> list:
         pass
 
     @abstractmethod
@@ -46,7 +46,7 @@ class FilmElasticStorage(FilmBaseStorage):
         return doc["_source"]
 
     async def get_data_list(
-        self, sort: str, genre: UUID, page_number: int, page_size: int
+        self, sort: str, genre_id: UUID, page_number: int, page_size: int
     ) -> list | None:
         if sort[0] == "-":
             sort = {sort[1:]: "desc"}
@@ -54,11 +54,11 @@ class FilmElasticStorage(FilmBaseStorage):
             sort = {sort: "asc"}
         filter_query = (
             {"match_all": {}}
-            if genre is None
+            if genre_id is None
             else {
                 "nested": {
                     "path": "genre",
-                    "query": {"bool": {"must": {"match": {"genre.id": genre}}}},
+                    "query": {"bool": {"must": {"match": {"genre.id": genre_id}}}},
                 }
             }
         )
