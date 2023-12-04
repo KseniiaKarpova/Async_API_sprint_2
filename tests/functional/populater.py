@@ -55,7 +55,7 @@ class FakeDataCreater:
 
     @property
     def genres_random_number(self):
-        return fake.random.randint(1, self.number)
+        return fake.random.randint(1, len(genres_names) - 1)
     
     @property
     def writers_random_number(self):
@@ -87,14 +87,16 @@ class FakeDataCreater:
             except KeyError:
                 person_films[movie_id] = [role]
             setattr(self, person['id'], person_films)
-        return characters, [person['name'] for person in characters]
+        return {
+            "objects": characters,
+            "names": [person['name'] for person in characters]}
 
 
     def genres_generator(self):
         """
         generate random genres list
         """
-        return [{'id': str(uuid.uuid4()), 'name': genre_name} for genre_name in self.film_genres]
+        return [{'id': str(uuid.uuid4()), 'name': genre_name, 'description': fake.text()} for genre_name in self.film_genres]
     
     def persons_generator(self):
         """
@@ -136,11 +138,11 @@ class FakeDataCreater:
                 'genre': movie_genre,
                 'title': fake.catch_phrase(),
                 'description': fake.text(),
-                'director': director[0],
-                'actors_names': actors[1],
-                'writers_names': writers[1],
-                'actors': actors[0],
-                'writers': writers[0],
+                'director': director['objects'],
+                'actors_names': actors['names'],
+                'writers_names': writers['names'],
+                'actors': actors['objects'],
+                'writers': writers['objects'],
             })
         return movies
     

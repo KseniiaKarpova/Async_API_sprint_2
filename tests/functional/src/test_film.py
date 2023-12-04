@@ -106,7 +106,6 @@ async def test_get_film(make_get_request, film_data, expected_answer):
 @pytest.mark.asyncio
 async def test_get_films_by_genre(make_get_request, genre, expected_answer):
     # 3. Запрашиваем данные из ES по API
-    print(genre)
     body, status = await make_get_request(endpoint=f"/api/v1/films", params=genre)
     # 4. Проверяем ответ
     assert status == expected_answer['status']
