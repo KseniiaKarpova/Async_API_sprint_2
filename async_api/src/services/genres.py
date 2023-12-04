@@ -1,38 +1,17 @@
 from functools import lru_cache
 from uuid import UUID
-
 from db.elastic import get_elastic
 from db.redis import get_redis
-from elasticsearch import AsyncElasticsearch, NotFoundError
 from redis.asyncio import Redis
 from services.cache import RedisCache
-
 from fastapi import Depends
+from services.base_service import BaseService
+from storages.genre_storage import GenreElasticStorage
+from elasticsearch import AsyncElasticsearch
 
 
-class GenreStorage:
-    def __init__(self, elastic: AsyncElasticsearch):
-        self.elastic = elastic
-
-    async def get_data_list(self):
-        try:
-            doc = await self.elastic.search(index="genres")
-            hits = doc['hits']['hits']
-            genres = [hit['_source'] for hit in hits]
-            return genres
-        except NotFoundError:
-            return None
-
-    async def get_data_by_id(self, id: UUID) -> dict:
-        try:
-            doc = await self.elastic.get(index="genres", id=id)
-        except NotFoundError:
-            return None
-        return doc["_source"]
-
-
-class GenreService:
-    def __init__(self, cache: RedisCache, storage: GenreStorage):
+class GenreService(BaseService):
+    def __init__(self, cache: RedisCache, storage: GenreElasticStorage):
         self.cache = cache
         self.storage = storage
 
@@ -59,5 +38,5 @@ def get_genre_service(
     elastic: AsyncElasticsearch = Depends(get_elastic),
 ) -> GenreService:
     redis = RedisCache(redis)
-    elastic = GenreStorage(elastic)
+    elastic = GenreElasticStorage(elastic)
     return GenreService(redis, elastic)

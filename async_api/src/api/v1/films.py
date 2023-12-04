@@ -51,7 +51,7 @@ async def search_films(
 
 
 @router.get(
-    "/{uuid}",
+    "/{film_id}",
     response_model=FilmDetail,
     response_model_exclude={"actors_names", "writers_names"},
     response_description="Example of film",

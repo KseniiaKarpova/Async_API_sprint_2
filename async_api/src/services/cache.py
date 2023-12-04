@@ -1,8 +1,21 @@
 import json
 from redis.asyncio import Redis
+from abc import ABC, abstractmethod
+from typing import Any
 
 
-class RedisCache:
+class BaseCache(ABC):
+
+    @abstractmethod
+    async def get_from_cache(self, url: str):
+        pass
+
+    @abstractmethod
+    async def put_to_cache(self, url: str, data: Any):
+        pass
+
+
+class RedisCache(BaseCache):
     CACHE_EXPIRE_IN_SECONDS = 300
 
     def __init__(self, redis: Redis, expire: int = None):
@@ -17,6 +30,6 @@ class RedisCache:
             result = json.loads(result)
         return result
 
-    async def put_to_cache(self, url: str, data):
+    async def put_to_cache(self, url: str, data: Any):
         data = json.dumps(data)
         await self.redis.setex(name=str(url), value=data, time=self.expire)
