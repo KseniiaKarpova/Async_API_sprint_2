@@ -8,7 +8,5 @@ create **.env** file based on **.env.example**<br>
 ### 2 step
 Сборка проекта
 ```bash
-docker-compose -f docker-compose.tests.yml build
-
-docker-compose -f docker-compose.tests.yml up
+docker-compose -f docker-compose-tests.yml up --build
 ```
