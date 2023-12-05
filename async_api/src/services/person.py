@@ -31,10 +31,10 @@ class PersonService(BaseService):
                 await self.cache.put_to_cache(url, data)
         return data
 
-    async def get_film(self, url: str, id: UUID) -> list[dict]:
+    async def get_person_films(self, url: str, id: UUID) -> list[dict]:
         data = await self.cache.get_from_cache(url)
         if not data:
-            data = await self.storage.get_film(id=id)
+            data = await self.storage.get_person_films(id=id)
             if data:
                 await self.cache.put_to_cache(url, data)
         return data
