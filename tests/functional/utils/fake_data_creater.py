@@ -58,7 +58,7 @@ class FakeDataCreater:
     
     @property
     def actors_random_number(self):
-        return fake.random.randint(1, 2 if self.number <=2 else self.number)
+        return fake.random.randint(1, 2 if self.number <=2 else 4)
 
     def movie_characters(self, role: str, movie_id):
         '''
@@ -154,7 +154,10 @@ def save_json(path, objects):
 
 
 def main():
-    fake = FakeDataCreater(numb_data=60)
+    fake = FakeDataCreater(numb_data=20)
     save_json(path='persons.json', objects=fake.persons)
     save_json(path='movies.json', objects=fake.movies)
     save_json(path='genres.json', objects=fake.genres)
+
+
+main()
