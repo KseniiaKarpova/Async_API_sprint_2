@@ -62,7 +62,7 @@ async def get_films_by_person(
     uuid: UUID,
     service: PersonService = Depends(get_person_service)
 ) -> list[dict[str, Film]]:
-    films = await service.get_film(url=str(request.url), id=str(uuid))
+    films = await service.get_person_films(url=str(request.url), id=str(uuid))
     if not films:
         raise films_not_found
     return films

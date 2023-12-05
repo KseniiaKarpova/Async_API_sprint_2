@@ -17,13 +17,20 @@ services:
     container_name: test_cache
     volumes:
       - test_cache:/data
+    env_file:
+      - .env
+    expose:
+      - "6379"
+    environment:
+      REDIS_HOST: ${TEST_REDIS_HOST}
+      REDIS_PORT: ${TEST_REDIS_PORT}
 
   test_async_api:
     container_name: test_fastapi
     build:
       context: async_api
       dockerfile: Dockerfile
-    image: test-fastapi-image
+    image: fastapi-image
     command: gunicorn main:app --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:7000
     ports:
       - 9999:7000
