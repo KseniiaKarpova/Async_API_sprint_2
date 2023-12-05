@@ -1,5 +1,3 @@
-import random as rd
-
 import pytest
 from functional.testdata import movies
 

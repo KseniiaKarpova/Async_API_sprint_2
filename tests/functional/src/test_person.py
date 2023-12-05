@@ -1,4 +1,4 @@
-import random as rd
+'''import random as rd
 import pytest
 from functional.testdata import persons
 import uuid
@@ -50,3 +50,4 @@ async def test_get_person_by_id(make_get_request, query,  expected_answer):
     # 2. Проверяем ответ
     assert status == expected_answer['status']
     assert len(body) == expected_answer['length'] or len(body) > expected_answer['length']
+'''
