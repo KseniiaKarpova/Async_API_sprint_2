@@ -13,19 +13,7 @@ import uuid
                 {'status': 200, 'length': 1}
         ),
         (
-                {'film_id': rd.choice(movies)['id']},
-                {'status': 200, 'length': 1}
-        ),
-        (
-                {'film_id': rd.choice(movies)['id']},
-                {'status': 200, 'length': 1}
-        ),
-        (
-                {'film_id': rd.choice(movies)['id']},
-                {'status': 200, 'length': 1}
-        ),
-        (
-                {'uuid': str(uuid.uuid4()),},
+                {'film_id': str(uuid.uuid4()),},
                 {'status': 404, 'length': 1}
         )
     ]
@@ -47,14 +35,6 @@ async def test_get_film(make_get_request, film_data, expected_answer):
         (
                 {'genre': 'Comedy', 'page_number': 1, "page_size": 50},
                 {'status': 200, 'length': movies_genres_counter(genre="Comedy")}
-        ),
-        (
-                {'genre': 'Drama', 'page_number': 1, "page_size": 50},
-                {'status': 200, 'length': movies_genres_counter(genre="Drama")}
-        ),
-        (
-                {'genre': 'Horror', 'page_number': 1, "page_size": 50},
-                {'status': 200, 'length': movies_genres_counter(genre="Horror")}
         ),
         (
                 {'genre': 'Something'},

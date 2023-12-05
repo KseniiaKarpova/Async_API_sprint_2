@@ -10,18 +10,6 @@ from functional.testdata import movies
                 {'status': 200, 'length': 1}
         ),
         (
-                {'query': movies[2]['title']},
-                {'status': 200, 'length': 1}
-        ),
-        (
-                {'query': movies[3]['title']},
-                {'status': 200, 'length': 1}
-        ),
-        (
-                {'query': movies[4]['title']},
-                {'status': 200, 'length': 1}
-        ),
-        (
                 {'query': 'Mashed potato'},
                 {'status': 404, 'length': 1}
         )

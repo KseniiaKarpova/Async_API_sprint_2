@@ -3,7 +3,12 @@ import random
 import uuid
 from pathlib import Path
 from faker import Faker
-from functional.testdata import config
+genres_names = [
+    "Action", "Comedy", "Drama",
+    "Horror", "Science Fiction", "Romance", 
+    "Documentary", "Fantasy", "Thriller", "Mystery"]
+
+roles_names = ['director', 'writer', 'actor']
 
 import copy
 fake = Faker()
@@ -13,8 +18,8 @@ BASE_DIR = Path(__file__).resolve().parent
 class FakeDataCreater:
     def __init__(self, numb_data: int) -> None:
         self.num_data = numb_data
-        self.film_genres = config.genres_names
-        self.person_roles = config.roles_names
+        self.film_genres = genres_names
+        self.person_roles = roles_names
         persons = self.persons_generator()
         setattr(self, 'persons', persons)
 
@@ -45,7 +50,7 @@ class FakeDataCreater:
 
     @property
     def genres_random_number(self):
-        return fake.random.randint(1, len(config.genres_names) - 1)
+        return fake.random.randint(1, len(genres_names) - 1)
     
     @property
     def writers_random_number(self):
@@ -105,9 +110,13 @@ class FakeDataCreater:
             person_movies = getattr(self, person['id'], {})
             for key, item in person_movies.items():
                 ## create films dict based on person mappings
-                person['films'] = {
-                    "id": key,
-                    'roles': item}
+                film = {
+                        "id": key,
+                        'roles': item}
+                if not person.get('films'):
+                    person['films'] = [film]
+                    continue
+                person['films'].append(film)
         return persons_with_movies
         
     def movies_generator(self):
@@ -136,3 +145,16 @@ class FakeDataCreater:
                 'writers': writers['objects'],
             })
         return movies
+
+
+def save_json(path, objects):
+    import json
+    with open(path, 'w') as outfile:
+        json.dump(objects, outfile, indent=4)
+
+
+def main():
+    fake = FakeDataCreater(numb_data=60)
+    save_json(path='persons.json', objects=fake.persons)
+    save_json(path='movies.json', objects=fake.movies)
+    save_json(path='genres.json', objects=fake.genres)
