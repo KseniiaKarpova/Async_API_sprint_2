@@ -22,7 +22,7 @@ router = APIRouter()
 async def get_film_list(
         film_service: FilmService = Depends(get_film_service),
         sort: str = "-imdb_rating",
-        genre: UUID = None,
+        genre: str = None,
         commons: QueryParams = Depends(QueryParams),
 ) -> list[Film]:
     films = await film_service.get_data_list(sort, genre, commons.page_number, commons.page_size)

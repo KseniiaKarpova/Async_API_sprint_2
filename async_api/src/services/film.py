@@ -38,22 +38,19 @@ class FilmStorage:
         return doc["_source"]
 
     async def get_data_list(
-        self, sort: str, genre: UUID, page_number: int, page_size: int
+        self, sort: str, genre: str, page_number: int, page_size: int
     ) -> list[dict] | None:
         if sort[0] == "-":
             sort = {sort[1:]: "desc"}
         else:
             sort = {sort: "asc"}
-        filter_query = (
-            {"match_all": {}}
-            if genre is None
-            else {
-                "nested": {
-                    "path": "genre",
-                    "query": {"bool": {"must": {"match": {"genre.id": genre}}}},
-                }
-            }
-        )
+        filter_query = {"match_all": {}} if genre is None else {
+            "match": {
+                "genre": {
+                    "query": genre,
+                    "operator": "and",
+                    "fuzziness": "AUTO"
+                    }}}
         docs = await self.elastic.search(
             index="movies",
             body={
@@ -88,7 +85,7 @@ class FilmService:
         return data
 
     async def get_data_list(
-        self, sort: str, genre: UUID, page_number: int, page_size: int
+        self, sort: str, genre: str, page_number: int, page_size: int
     ) -> list[dict]:
         data = await self.storage.get_data_list(
             sort=sort, genre=genre, page_number=page_number, page_size=page_size
