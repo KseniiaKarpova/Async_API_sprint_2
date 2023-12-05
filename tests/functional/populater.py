@@ -17,7 +17,7 @@ def create_index_data(objects: list[dict], mappings: dict, index: str):
         if client.indices.exists(index=index):
             client.indices.delete(index=index)
         client.indices.create(index=index, body=mappings, ignore=400)
-        updated, errors = helpers.bulk(client=client, actions=objects)
+        updated, errors = helpers.bulk(client=client, actions=objects, refresh='wait_for')
 
 
 def populate():

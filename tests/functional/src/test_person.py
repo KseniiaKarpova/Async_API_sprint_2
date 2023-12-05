@@ -11,6 +11,14 @@ PERSONS = persons
         (
             {'query' : rd.choice(PERSONS)['name']},
             {'status': 200, 'length': 1}
+        ),
+        (
+            {'query' : rd.choice(PERSONS)['name']},
+            {'status': 200, 'length': 1}
+        ),
+        (
+            {'query' : 'sdasdasds'},
+            {'status': 404, 'length': 1}
         )
     ]
 )
@@ -27,6 +35,14 @@ async def test_get_persons(make_get_request, params, expected_answer):
 @pytest.mark.parametrize(
     'query, expected_answer',
     [
+        (
+            {'uuid': rd.choice(PERSONS)['id']},
+            {'status': 200, 'length': 1}
+        ),
+        (
+            {'uuid': rd.choice(PERSONS)['id']},
+            {'status': 200, 'length': 1}
+        ),
         (
             {'uuid': rd.choice(PERSONS)['id']},
             {'status': 200, 'length': 1}

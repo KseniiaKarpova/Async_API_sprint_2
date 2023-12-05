@@ -13,6 +13,14 @@ import uuid
                 {'status': 200, 'length': 1}
         ),
         (
+                {'film_id': rd.choice(movies)['id']},
+                {'status': 200, 'length': 1}
+        ),
+        (
+                {'film_id': rd.choice(movies)['id']},
+                {'status': 200, 'length': 1}
+        ),
+        (
                 {'film_id': str(uuid.uuid4()),},
                 {'status': 404, 'length': 1}
         )
