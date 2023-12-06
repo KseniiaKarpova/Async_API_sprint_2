@@ -25,7 +25,7 @@ import uuid
                 {'status': 200, 'length': 1}
         ),
         (
-                {'uuid': str(uuid.uuid4()),},
+                {'film_id': str(uuid.uuid4()),},
                 {'status': 404, 'length': 1}
         )
     ]
