@@ -1,14 +1,15 @@
-import pytest
-from functional.testdata import movies, persons
 import random as rd
 from http import HTTPStatus
+
+import pytest
+from functional.testdata import movies, persons
 
 
 @pytest.mark.parametrize(
     'query_data, expected_answer',
     [
         (
-                {'query': movies[1]['title']},
+                {'query': rd.choice(movies)['title']},
                 {'status': HTTPStatus.OK, 'length': 1}
         ),
         (

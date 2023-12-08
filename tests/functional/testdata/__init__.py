@@ -1,5 +1,3 @@
-import json
-
 movies = [
     {
         "id": "d2fde5ed-10fe-44bc-a53c-185bda4a3b74",

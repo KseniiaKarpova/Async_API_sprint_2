@@ -1,8 +1,9 @@
-## this file to generate fake data
 import random
 import uuid
 from pathlib import Path
+
 from faker import Faker
+
 genres_names = [
     "Action", "Comedy", "Drama",
     "Horror", "Science Fiction", "Romance", 
@@ -11,6 +12,7 @@ genres_names = [
 roles_names = ['director', 'writer', 'actor']
 
 import copy
+
 fake = Faker()
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -159,5 +161,5 @@ def main():
     save_json(path='movies.json', objects=fake.movies)
     save_json(path='genres.json', objects=fake.genres)
 
-
-main()
+if __name__ == '__main__':
+    main()

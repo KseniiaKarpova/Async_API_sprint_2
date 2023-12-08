@@ -1,5 +1,6 @@
-from functools import wraps
 import time
+from functools import wraps
+
 from functional.logger import logger
 
 

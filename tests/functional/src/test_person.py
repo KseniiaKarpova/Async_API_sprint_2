@@ -1,8 +1,9 @@
 import random as rd
-import pytest
-from functional.testdata import persons
 import uuid
 from http import HTTPStatus
+
+import pytest
+from functional.testdata import persons
 
 PERSONS = persons
 
@@ -10,15 +11,15 @@ PERSONS = persons
     'params, expected_answer',
     [
         (
-            {'query' : rd.choice(PERSONS)['name']},
+            {'query': rd.choice(PERSONS)['name']},
             {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
-            {'query' : rd.choice(PERSONS)['name']},
+            {'query': rd.choice(PERSONS)['name']},
             {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
-            {'query' : 'sdasdasds'},
+            {'query': 'sdasdasds'},
             {'status': HTTPStatus.NOT_FOUND, 'length': 1}
         )
     ]

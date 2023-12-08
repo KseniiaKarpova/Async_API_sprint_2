@@ -1,8 +1,9 @@
 import random as rd
+import uuid
+from http import HTTPStatus
 
 import pytest
 from functional.testdata import movies, movies_genres_counter
-import uuid
 
 
 @pytest.mark.parametrize(
@@ -10,19 +11,19 @@ import uuid
     [
         (
                 {'film_id': rd.choice(movies)['id']},
-                {'status': 200, 'length': 1}
+                {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
                 {'film_id': rd.choice(movies)['id']},
-                {'status': 200, 'length': 1}
+                {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
                 {'film_id': rd.choice(movies)['id']},
-                {'status': 200, 'length': 1}
+                {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
-                {'film_id': str(uuid.uuid4()),},
-                {'status': 404, 'length': 1}
+                {'film_id': str(uuid.uuid4())},
+                {'status': HTTPStatus.NOT_FOUND, 'length': 1}
         )
     ]
 )
@@ -42,11 +43,11 @@ async def test_get_film(make_get_request, film_data, expected_answer):
     [
         (
                 {'genre': 'Comedy', 'page_number': 1, "page_size": 50},
-                {'status': 200, 'length': movies_genres_counter(genre="Comedy")}
+                {'status': HTTPStatus.OK, 'length': movies_genres_counter(genre="Comedy")}
         ),
         (
                 {'genre': 'Something'},
-                {'status': 404, 'length': 1}
+                {'status': HTTPStatus.NOT_FOUND, 'length': 1}
         )
     ]
 )

@@ -1,13 +1,16 @@
 import random as rd
+import uuid
+from http import HTTPStatus
+
 import pytest
 from functional.testdata import genres
-import uuid
+
 
 @pytest.mark.parametrize(
     'expected_answer',
     [
         (
-                {'status': 200, 'length': len(genres)}
+                {'status': HTTPStatus.OK, 'length': len(genres)}
         )
     ]
 )
@@ -26,19 +29,19 @@ async def test_get_genres(make_get_request, expected_answer):
     [
         (
                 {'uuid': rd.choice(genres)['id']},
-                {'status': 200, 'length': 1}
+                {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
                 {'uuid': rd.choice(genres)['id']},
-                {'status': 200, 'length': 1}
+                {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
                 {'uuid': rd.choice(genres)['id']},
-                {'status': 200, 'length': 1}
+                {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
                 {'uuid': str(uuid.uuid4())},
-                {'status': 404, 'length': 0}
+                {'status': HTTPStatus.NOT_FOUND, 'length': 0}
         ),
     ]
 )
