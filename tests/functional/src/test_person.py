@@ -2,6 +2,7 @@ import random as rd
 import pytest
 from functional.testdata import persons
 import uuid
+from http import HTTPStatus
 
 PERSONS = persons
 
@@ -10,15 +11,15 @@ PERSONS = persons
     [
         (
             {'query' : rd.choice(PERSONS)['name']},
-            {'status': 200, 'length': 1}
+            {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
             {'query' : rd.choice(PERSONS)['name']},
-            {'status': 200, 'length': 1}
+            {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
             {'query' : 'sdasdasds'},
-            {'status': 404, 'length': 1}
+            {'status': HTTPStatus.NOT_FOUND, 'length': 1}
         )
     ]
 )
@@ -37,19 +38,19 @@ async def test_get_persons(make_get_request, params, expected_answer):
     [
         (
             {'uuid': rd.choice(PERSONS)['id']},
-            {'status': 200, 'length': 1}
+            {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
             {'uuid': rd.choice(PERSONS)['id']},
-            {'status': 200, 'length': 1}
+            {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
             {'uuid': rd.choice(PERSONS)['id']},
-            {'status': 200, 'length': 1}
+            {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
             {'uuid': str(uuid.uuid4())},
-            {'status': 404, 'length': 0}
+            {'status': HTTPStatus.NOT_FOUND, 'length': 0}
         ),
     ]
 )

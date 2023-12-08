@@ -2,6 +2,7 @@ from elasticsearch import Elasticsearch, helpers
 from functional.settings import test_settings
 from functional.testdata import es_mapping
 from functional import testdata
+from functional.utils.decorators import backoff
 
 
 def bulk_data(objects, index):
@@ -11,6 +12,7 @@ def bulk_data(objects, index):
     return bulk_query
 
 
+@backoff(start_sleep_time=0.1, factor=2, border_sleep_time=100)
 def create_index_data(objects: list[dict], mappings: dict, index: str):
     es = Elasticsearch(hosts=[test_settings.es_url], verify_certs=False)
     with es as client:

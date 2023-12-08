@@ -3,7 +3,6 @@ import asyncio
 import pytest_asyncio
 from aiohttp import ClientSession
 from functional.settings import test_settings
-from functional.utils.decorators import backoff
 
 
 @pytest_asyncio.fixture(scope='session')
@@ -20,7 +19,6 @@ async def aiohttp_session():
     await session.close()
 
 
-@backoff(start_sleep_time=0.1, factor=2, border_sleep_time=100)
 @pytest_asyncio.fixture(name='make_get_request')
 def make_get_request(aiohttp_session: ClientSession):
     async def inner(endpoint, params=None):

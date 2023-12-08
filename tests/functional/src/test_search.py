@@ -1,6 +1,7 @@
 import pytest
 from functional.testdata import movies, persons
 import random as rd
+from http import HTTPStatus
 
 
 @pytest.mark.parametrize(
@@ -8,11 +9,11 @@ import random as rd
     [
         (
                 {'query': movies[1]['title']},
-                {'status': 200, 'length': 1}
+                {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
                 {'query': 'Mashed potato'},
-                {'status': 404, 'length': 1}
+                {'status': HTTPStatus.NOT_FOUND, 'length': 1}
         )
     ]
 )
@@ -31,19 +32,19 @@ async def test_search_film(make_get_request, query_data, expected_answer):
     [
         (
                 {'query': rd.choice(persons)['name']},
-                {'status': 200, 'length': 1}
+                {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
                 {'query': rd.choice(persons)['name']},
-                {'status': 200, 'length': 1}
+                {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
                 {'query': rd.choice(persons)['name']},
-                {'status': 200, 'length': 1}
+                {'status': HTTPStatus.OK, 'length': 1}
         ),
         (
                 {'query': 'Mashed potato'},
-                {'status': 404, 'length': 1}
+                {'status': HTTPStatus.NOT_FOUND, 'length': 1}
         )
     ]
 )
