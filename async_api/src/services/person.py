@@ -1,13 +1,10 @@
 from functools import lru_cache
 from uuid import UUID
-from db.elastic import get_elastic
-from db.redis import get_redis
-from redis.asyncio import Redis
-from services.cache import RedisCache
 from fastapi import Depends
 from services.base_service import BaseService
-from storages.person_storage import PersonElasticStorage
-from elasticsearch import AsyncElasticsearch
+from storages.base_storage import BaseCache
+from storages.cache_storage import RedisCache
+from storages.person_storage import BasePersonStorage, PersonElasticStorage
 
 
 class PersonService(BaseService):
@@ -42,9 +39,7 @@ class PersonService(BaseService):
 
 @lru_cache()
 def get_person_service(
-    redis: Redis = Depends(get_redis),
-    elastic: AsyncElasticsearch = Depends(get_elastic),
+        cache: BaseCache = Depends(RedisCache),
+        person_storage: BasePersonStorage = Depends(PersonElasticStorage),
 ) -> PersonService:
-    redis = RedisCache(redis)
-    elastic = PersonElasticStorage(elastic)
-    return PersonService(redis, elastic)
+    return PersonService(cache, person_storage)

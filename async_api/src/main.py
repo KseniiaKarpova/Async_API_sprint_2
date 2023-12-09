@@ -1,5 +1,4 @@
 import logging
-
 import uvicorn
 from api.v1 import films, genres, persons
 from core import config
@@ -9,7 +8,6 @@ from elasticsearch import AsyncElasticsearch
 from fastapi.responses import ORJSONResponse
 from redis.asyncio import Redis
 from contextlib import asynccontextmanager
-#from functools import lru_cache
 from fastapi import FastAPI
 
 
