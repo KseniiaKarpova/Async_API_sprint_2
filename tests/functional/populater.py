@@ -2,7 +2,7 @@ from elasticsearch import Elasticsearch, helpers
 from functional import testdata
 from functional.settings import test_settings
 from functional.testdata import es_mapping
-from functional.utils.decorators import backoff
+
 
 
 def bulk_data(objects, index):
