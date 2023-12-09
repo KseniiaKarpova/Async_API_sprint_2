@@ -5,22 +5,23 @@ from http import HTTPStatus
 import pytest
 from functional.testdata import persons
 
-PERSONS = persons
+persons_fields = ['id', 'name', 'films']
+persons_detail_fields = rd.choice(persons).keys()
 
 @pytest.mark.parametrize(
     'params, expected_answer',
     [
         (
-            {'query': rd.choice(PERSONS)['name']},
-            {'status': HTTPStatus.OK, 'length': 1}
+            {'query': rd.choice(persons)['name']},
+            {'status': HTTPStatus.OK, 'length': 1, 'fields': persons_fields}
         ),
         (
-            {'query': rd.choice(PERSONS)['name']},
-            {'status': HTTPStatus.OK, 'length': 1}
+            {'query': rd.choice(persons)['name']},
+            {'status': HTTPStatus.OK, 'length': 1, 'fields': persons_fields}
         ),
         (
             {'query': 'sdasdasds'},
-            {'status': HTTPStatus.NOT_FOUND, 'length': 1}
+            {'status': HTTPStatus.NOT_FOUND, 'length': 1, 'fields': []}
         )
     ]
 )
@@ -32,26 +33,28 @@ async def test_get_persons(make_get_request, params, expected_answer):
     # 2. Проверяем ответ
     assert status == expected_answer['status']
     assert len(body) == expected_answer['length'] or len(body) > expected_answer['length']
+    if status == HTTPStatus.OK and body:
+        assert list(body[0].keys()).sort() == list(expected_answer['fields']).sort()
 
 
 @pytest.mark.parametrize(
     'query, expected_answer',
     [
         (
-            {'uuid': rd.choice(PERSONS)['id']},
-            {'status': HTTPStatus.OK, 'length': 1}
+            {'uuid': rd.choice(persons)['id']},
+            {'status': HTTPStatus.OK, 'length': 1, 'fields': persons_detail_fields}
         ),
         (
-            {'uuid': rd.choice(PERSONS)['id']},
-            {'status': HTTPStatus.OK, 'length': 1}
+            {'uuid': rd.choice(persons)['id']},
+            {'status': HTTPStatus.OK, 'length': 1, 'fields': persons_detail_fields}
         ),
         (
-            {'uuid': rd.choice(PERSONS)['id']},
-            {'status': HTTPStatus.OK, 'length': 1}
+            {'uuid': rd.choice(persons)['id']},
+            {'status': HTTPStatus.OK, 'length': 1, 'fields': persons_detail_fields}
         ),
         (
             {'uuid': str(uuid.uuid4())},
-            {'status': HTTPStatus.NOT_FOUND, 'length': 0}
+            {'status': HTTPStatus.NOT_FOUND, 'length': 0, 'fields': []}
         ),
     ]
 )
@@ -63,3 +66,5 @@ async def test_get_person_by_id(make_get_request, query,  expected_answer):
     # 2. Проверяем ответ
     assert status == expected_answer['status']
     assert len(body) == expected_answer['length'] or len(body) > expected_answer['length']
+    if status == HTTPStatus.OK and body:
+        assert list(body.keys()).sort() == list(expected_answer['fields']).sort()
