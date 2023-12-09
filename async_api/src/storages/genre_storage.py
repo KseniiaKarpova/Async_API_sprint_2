@@ -1,6 +1,7 @@
 from elasticsearch import AsyncElasticsearch, NotFoundError
 from uuid import UUID
 from storages.base_storage import BaseStorage
+from db.elastic import get_elastic
 from abc import abstractmethod
 
 
@@ -16,7 +17,7 @@ class GenreBaseStorage(BaseStorage):
 
 class GenreElasticStorage(GenreBaseStorage):
     def __init__(self, elastic: AsyncElasticsearch):
-        self.elastic = elastic
+        self.elastic = get_elastic()
 
     async def get_data_list(self):
         try:

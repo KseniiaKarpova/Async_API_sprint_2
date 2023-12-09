@@ -1,7 +1,7 @@
 import backoff
-from redis import Redis
-from functional.settings import test_settings
 from functional.logger import logger
+from functional.settings import test_settings
+from redis import Redis
 
 
 @backoff.on_exception(backoff.expo, ValueError, max_time=60)

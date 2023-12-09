@@ -1,5 +1,4 @@
 import logging
-from logging.handlers import RotatingFileHandler
 
 logger = logging.getLogger('tests')
 logger.setLevel(logging.INFO)

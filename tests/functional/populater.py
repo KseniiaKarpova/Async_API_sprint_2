@@ -1,7 +1,8 @@
 from elasticsearch import Elasticsearch, helpers
+from functional import testdata
 from functional.settings import test_settings
 from functional.testdata import es_mapping
-from functional import testdata
+
 
 
 def bulk_data(objects, index):
@@ -11,13 +12,13 @@ def bulk_data(objects, index):
     return bulk_query
 
 
-def create_index_data(objects: list[dict], state_key: str, mappings: dict, index: str):
+def create_index_data(objects: list[dict], mappings: dict, index: str):
     es = Elasticsearch(hosts=[test_settings.es_url], verify_certs=False)
     with es as client:
         if client.indices.exists(index=index):
             client.indices.delete(index=index)
         client.indices.create(index=index, body=mappings, ignore=400)
-        updated, errors = helpers.bulk(client=client, actions=objects)
+        updated, errors = helpers.bulk(client=client, actions=objects, refresh='wait_for')
 
 
 def populate():
@@ -25,9 +26,9 @@ def populate():
     GENRES_OBJECTS_BULK = bulk_data(objects=testdata.genres, index='genres')
     PERSONS_OBJECTS_BULK = bulk_data(objects=testdata.persons, index='persons')
 
-    create_index_data(objects=MOVIES_OBJECTS_BULK, mappings=es_mapping.movies, state_key='movies', index='movies')
-    create_index_data(objects=GENRES_OBJECTS_BULK, mappings=es_mapping.genres, state_key='genres', index='genres')
-    create_index_data(objects=PERSONS_OBJECTS_BULK, mappings=es_mapping.persons, state_key='persons', index='persons')
+    create_index_data(objects=MOVIES_OBJECTS_BULK, mappings=es_mapping.movies, index='movies')
+    create_index_data(objects=GENRES_OBJECTS_BULK, mappings=es_mapping.genres, index='genres')
+    create_index_data(objects=PERSONS_OBJECTS_BULK, mappings=es_mapping.persons, index='persons')
 
 
 if __name__ == '__main__':

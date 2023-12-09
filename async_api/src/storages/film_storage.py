@@ -1,6 +1,7 @@
 from abc import abstractmethod
 from elasticsearch import AsyncElasticsearch, NotFoundError
 from storages.base_storage import BaseStorage
+from db.elastic import get_elastic
 from uuid import UUID
 
 
@@ -20,7 +21,7 @@ class FilmBaseStorage(BaseStorage):
 
 class FilmElasticStorage(FilmBaseStorage):
     def __init__(self, elastic: AsyncElasticsearch):
-        self.elastic = elastic
+        self.elastic = get_elastic()
 
     async def search_data(self, query, page_number, page_size):
         search_query = {"query_string": {"default_field": "title", "query": query}}

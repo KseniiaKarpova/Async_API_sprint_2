@@ -1,13 +1,18 @@
 import random as rd
+import uuid
+from http import HTTPStatus
+
 import pytest
 from functional.testdata import genres
-import uuid
+genres_fields = ['id', 'name', 'description']
+genres_detail_fields = rd.choice(genres).keys()
+
 
 @pytest.mark.parametrize(
     'expected_answer',
     [
         (
-                {'status': 200, 'length': len(genres)}
+                {'status': HTTPStatus.OK, 'length': len(genres), 'fields': genres_fields}
         )
     ]
 )
@@ -19,6 +24,8 @@ async def test_get_genres(make_get_request, expected_answer):
     # 2. Проверяем ответ
     assert status == expected_answer['status']
     assert len(body) == expected_answer['length']
+    if status == HTTPStatus.OK and body:
+        assert list(body[0].keys()).sort() == list(expected_answer['fields']).sort()
 
 
 @pytest.mark.parametrize(
@@ -26,15 +33,19 @@ async def test_get_genres(make_get_request, expected_answer):
     [
         (
                 {'uuid': rd.choice(genres)['id']},
-                {'status': 200, 'length': 1}
+                {'status': HTTPStatus.OK, 'length': 1, 'fields': genres_detail_fields}
         ),
         (
                 {'uuid': rd.choice(genres)['id']},
-                {'status': 200, 'length': 1}
+                {'status': HTTPStatus.OK, 'length': 1, 'fields': genres_detail_fields}
+        ),
+        (
+                {'uuid': rd.choice(genres)['id']},
+                {'status': HTTPStatus.OK, 'length': 1, 'fields': genres_detail_fields}
         ),
         (
                 {'uuid': str(uuid.uuid4())},
-                {'status': 404, 'length': 0}
+                {'status': HTTPStatus.NOT_FOUND, 'length': 0, 'fields': []}
         ),
     ]
 )
@@ -46,3 +57,5 @@ async def test_get_genres_by_id(make_get_request, query,  expected_answer):
     # 2. Проверяем ответ
     assert status == expected_answer['status']
     assert len(body) == expected_answer['length'] or len(body) > expected_answer['length']
+    if status == HTTPStatus.OK and body:
+        assert list(body.keys()).sort() == list(expected_answer['fields']).sort()
